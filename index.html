@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DosiThink</title>
 
-  <!-- PWA Manifest & Service Worker -->
-  <link rel="manifest" href="manifest.json">
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json" />
   <script src="sw-register.js"></script>
-
-  <!-- App Icons -->
   <link rel="icon" href="icon-192.png" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
@@ -42,24 +40,26 @@
     .phone-container {
       display: flex;
       max-width: 400px;
-      margin: auto;
+      margin: 10px auto;
     }
     .phone-container span {
       background: #ddd;
-      padding: 12px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
       border: 1px solid #ccc;
       border-right: none;
       border-radius: 5px 0 0 5px;
-      user-select: none;
-      display: flex;
-      align-items: center;
+      font-size: 1em;
     }
     .phone-container input {
       flex: 1;
-      border-radius: 0 5px 5px 0;
-      border-left: none;
       padding: 12px;
       font-size: 1em;
+      border-radius: 0 5px 5px 0;
+      border: 1px solid #ccc;
+      border-left: none;
+      box-sizing: border-box;
     }
     .med-item {
       background: white;
@@ -69,40 +69,34 @@
       border-radius: 5px;
     }
 
-    /* Splash Screen Styles */
+    /* Splash Screen */
     #splash-screen {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: white;
-      z-index: 9999;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      animation: fadeOut 1s ease 3s forwards;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeOut 1s ease 2.5s forwards;
     }
-
     #splash-screen img {
       width: 100px;
       height: 100px;
       margin-bottom: 20px;
     }
-
     #splash-screen h1 {
-      color: #0D47A1;
       font-size: 2em;
+      color: #0D47A1;
       margin: 0;
     }
-
     #splash-screen p {
-      color: #607D8B;
       font-size: 1.2em;
+      color: #607D8B;
       margin-top: 10px;
     }
-
     @keyframes fadeOut {
       to {
         opacity: 0;
@@ -115,7 +109,7 @@
 
   <!-- Splash Screen -->
   <div id="splash-screen">
-    <img src="icon-192.png" alt="DosiThink Logo">
+    <img src="icon-192.png" alt="Logo" />
     <h1>DosiThink</h1>
     <p>Because Every Dose Matters</p>
   </div>
@@ -127,10 +121,12 @@
     <input type="text" id="name" placeholder="Name" required />
     <input type="number" id="age" placeholder="Age" required />
     <input type="email" id="email" placeholder="Email" required />
+
     <div class="phone-container">
       <span id="country-code">+XX</span>
       <input type="tel" id="phone" placeholder="Phone Number" required />
     </div>
+
     <select id="country" required><option value="">Detecting...</option></select>
     <button onclick="submitUser()">Start</button>
   </div>
@@ -159,9 +155,9 @@
       setTimeout(() => {
         document.getElementById("splash-screen").style.display = "none";
         document.getElementById("form-section").classList.remove("hidden");
-      }, 3000); // Show splash screen for 3 seconds
+      }, 3000);
 
-      // Detect country or use default (Saudi Arabia) when offline
+      // Auto-detect country code or fallback
       fetch("https://ipapi.co/json")
         .then(res => res.json())
         .then(data => {
