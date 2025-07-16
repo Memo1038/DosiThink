@@ -53,9 +53,6 @@
       user-select: none;
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      height: 47.2px; /* Match input */
     }
     .phone-container input {
       flex: 1;
@@ -63,8 +60,6 @@
       border-left: none;
       padding: 12px;
       font-size: 1em;
-      box-sizing: border-box;
-      height: 47.2px;
     }
     .med-item {
       background: white;
@@ -73,13 +68,62 @@
       margin: 10px 0;
       border-radius: 5px;
     }
+
+    /* Splash Screen Styles */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeOut 1s ease 3s forwards;
+    }
+
+    #splash-screen img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+
+    #splash-screen h1 {
+      color: #0D47A1;
+      font-size: 2em;
+      margin: 0;
+    }
+
+    #splash-screen p {
+      color: #607D8B;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="icon-192.png" alt="DosiThink Logo">
+    <h1>DosiThink</h1>
+    <p>Because Every Dose Matters</p>
+  </div>
+
   <h1>DosiThink</h1>
   <h2>Because Every Dose Matters</h2>
 
-  <div id="form-section">
+  <div id="form-section" class="hidden">
     <input type="text" id="name" placeholder="Name" required />
     <input type="number" id="age" placeholder="Age" required />
     <input type="email" id="email" placeholder="Email" required />
@@ -111,8 +155,13 @@
     let user = {};
     let meds = [];
 
-    // Detect country or use default (Saudi Arabia) when offline
     window.onload = () => {
+      setTimeout(() => {
+        document.getElementById("splash-screen").style.display = "none";
+        document.getElementById("form-section").classList.remove("hidden");
+      }, 3000); // Show splash screen for 3 seconds
+
+      // Detect country or use default (Saudi Arabia) when offline
       fetch("https://ipapi.co/json")
         .then(res => res.json())
         .then(data => {
@@ -120,7 +169,6 @@
           document.getElementById("country").innerHTML = `<option selected>${data.country_name}</option>`;
         })
         .catch(() => {
-          // Offline fallback
           document.getElementById("country-code").innerText = "+966";
           document.getElementById("country").innerHTML = `<option selected>Saudi Arabia</option>`;
         });
