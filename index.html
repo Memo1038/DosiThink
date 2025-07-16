@@ -39,36 +39,6 @@
     .hidden {
       display: none;
     }
-
-    .phone-container {
-      display: flex;
-      align-items: center;
-      max-width: 400px;
-      margin: auto;
-      margin-top: 10px;
-    }
-    .phone-container span {
-      background: #ddd;
-      padding: 12px 16px;
-      border: 1px solid #ccc;
-      border-right: none;
-      border-radius: 5px 0 0 5px;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      height: 47px;
-    }
-    .phone-container input {
-      flex: 1;
-      height: 47px;
-      border-radius: 0 5px 5px 0;
-      border: 1px solid #ccc;
-      border-left: none;
-      padding: 12px;
-      font-size: 1em;
-      box-sizing: border-box;
-    }
-
     .med-item {
       background: white;
       border: 1px solid #ccc;
@@ -130,10 +100,6 @@
     <input type="text" id="name" placeholder="Name" required />
     <input type="number" id="age" placeholder="Age" required />
     <input type="email" id="email" placeholder="Email" required />
-    <div class="phone-container">
-      <span id="country-code">+XX</span>
-      <input type="tel" id="phone" placeholder="Phone Number" required />
-    </div>
     <select id="country" required><option value="">Detecting...</option></select>
     <button onclick="submitUser()">Start</button>
   </div>
@@ -159,15 +125,12 @@
     let meds = [];
 
     window.onload = () => {
-      // Splash screen removal already handled by animation
       fetch("https://ipapi.co/json")
         .then(res => res.json())
         .then(data => {
-          document.getElementById("country-code").innerText = data.country_calling_code || "+XX";
           document.getElementById("country").innerHTML = `<option selected>${data.country_name}</option>`;
         })
         .catch(() => {
-          document.getElementById("country-code").innerText = "+966";
           document.getElementById("country").innerHTML = `<option selected>Saudi Arabia</option>`;
         });
     };
@@ -176,16 +139,14 @@
       const name = document.getElementById("name").value.trim();
       const age = document.getElementById("age").value.trim();
       const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const fullPhone = document.getElementById("country-code").innerText + " " + phone;
       const country = document.getElementById("country").value.trim();
 
-      if (!name || !age || !email || !phone || !country) {
+      if (!name || !age || !email || !country) {
         alert("Please fill in all fields");
         return;
       }
 
-      user = { name, age, email, phone: fullPhone, country };
+      user = { name, age, email, country };
 
       document.getElementById("form-section").classList.add("hidden");
       document.getElementById("medication-section").classList.remove("hidden");
