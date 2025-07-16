@@ -10,14 +10,11 @@
   <script src="sw-register.js"></script>
 
   <!-- App Icons -->
-  <link rel="icon" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="icon" href="icon-512.png" />
+  <link rel="apple-touch-icon" href="icon-512.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
@@ -37,34 +34,41 @@
       font-size: 1em;
       border-radius: 5px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
     .hidden {
       display: none;
     }
+
     .phone-container {
       display: flex;
+      align-items: center;
       max-width: 400px;
-      margin: 10px auto;
+      margin: auto;
+      margin-top: 10px;
     }
     .phone-container span {
       background: #ddd;
-      padding: 12px 15px;
+      padding: 12px 16px;
       border: 1px solid #ccc;
       border-right: none;
       border-radius: 5px 0 0 5px;
       user-select: none;
       display: flex;
       align-items: center;
-      font-size: 1em;
+      height: 47px;
     }
     .phone-container input {
       flex: 1;
-      padding: 12px;
-      font-size: 1em;
+      height: 47px;
+      border-radius: 0 5px 5px 0;
       border: 1px solid #ccc;
       border-left: none;
-      border-radius: 0 5px 5px 0;
+      padding: 12px;
+      font-size: 1em;
+      box-sizing: border-box;
     }
+
     .med-item {
       background: white;
       border: 1px solid #ccc;
@@ -73,46 +77,48 @@
       border-radius: 5px;
     }
 
-    /* Splash Screen */
+    /* Splash screen styles */
     #splash {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: white;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      z-index: 9999;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      z-index: 9999;
-      animation: fadeOut 1s ease 2.5s forwards;
+      align-items: center;
+      animation: fadeOut 1s ease 3s forwards;
     }
-
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
-
     #splash img {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 15px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-bottom: 20px;
     }
-
     #splash h1 {
+      font-size: 24px;
       margin: 0;
-      font-size: 2em;
       color: #0D47A1;
     }
-
     #splash p {
-      margin-top: 10px;
-      font-size: 1em;
-      color: #607D8B;
+      color: #555;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
   </style>
 </head>
 <body>
+
   <!-- Splash Screen -->
   <div id="splash">
-    <img src="icon-192.png" alt="Logo">
+    <img src="icon-512.png" alt="App Icon">
     <h1>DosiThink</h1>
     <p>Because Every Dose Matters</p>
   </div>
@@ -152,8 +158,8 @@
     let user = {};
     let meds = [];
 
-    // Country detection with offline fallback
     window.onload = () => {
+      // Splash screen removal already handled by animation
       fetch("https://ipapi.co/json")
         .then(res => res.json())
         .then(data => {
