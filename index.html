@@ -42,20 +42,6 @@
     .hidden {
       display: none;
     }
-    .phone-container {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 400px;
-      margin: 10px auto;
-      gap: 10px;
-    }
-    .phone-container select, .phone-container input {
-      flex: 1;
-      padding: 12px;
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
     .med-item {
       background: white;
       border: 1px solid #ccc;
@@ -121,19 +107,7 @@
     <input type="text" id="name" placeholder="Name - الاسم" required />
     <input type="number" id="age" placeholder="Age - السن" required />
     <input type="email" id="email" placeholder="Email - الايميل" required />
-    
-    <div class="phone-container">
-      <select id="country-code" required>
-        <option value="" disabled selected>Select Country Code - كود الدولة</option>
-        <option value="+1">🇨🇦 Canada (+1)</option>
-        <option value="+966">🇸🇦 Saudi Arabia (+966)</option>
-        <option value="+20">🇪🇬 Egypt (+20)</option>
-        <option value="+1">🇺🇸 USA (+1)</option>
-        <option value="+971">🇦🇪 UAE (+971)</option>
-      </select>
-      <input type="tel" id="phone" placeholder="Mobile Number - رقم التليفون" required />
-    </div>
-
+    <input type="tel" id="phone" placeholder="Mobile Number With Country Code - رقم التليفون ومفتاح الدوله" required />
     <button onclick="submitUser()">Start</button>
   </div>
 
@@ -155,7 +129,7 @@
 
   <div class="social-icons">
     <a href="https://wa.me/?text=Try%20DosiThink%20App%20https://memo1038.github.io/DosiThink/" target="_blank" title="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-    <a href="https://www.instagram.com/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.instagram.com/?url=https://memo1038.github.io/DosiThink/" target="_blank" title="Share on Instagram"><i class="fab fa-instagram"></i></a>
     <a href="https://www.facebook.com/sharer/sharer.php?u=https://memo1038.github.io/DosiThink/" target="_blank" title="Share on Facebook"><i class="fab fa-facebook"></i></a>
   </div>
 
@@ -168,16 +142,13 @@
       const age = document.getElementById("age").value.trim();
       const email = document.getElementById("email").value.trim();
       const phone = document.getElementById("phone").value.trim();
-      const code = document.getElementById("country-code").value;
 
-      if (!name || !age || !email || !phone || !code) {
+      if (!name || !age || !email || !phone) {
         alert("Please fill in all fields");
         return;
       }
 
-      const fullPhone = code + " " + phone;
-
-      user = { name, age, email, phone: fullPhone };
+      user = { name, age, email, phone };
       document.getElementById("form-section").classList.add("hidden");
       document.getElementById("medication-section").classList.remove("hidden");
       document.getElementById("welcome-name").innerText = `Welcome Mr. ${name}`;
