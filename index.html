@@ -130,10 +130,17 @@
     <input type="number" id="age" placeholder="Age - السن" required />
     <input type="email" id="email" placeholder="Email - الايميل" required />
     <div class="phone-container">
-      <span id="country-code">+XX</span>
+      <span id="country-code">+966</span>
       <input type="tel" id="phone" placeholder="Mobile Number - رقم التليفون" required />
     </div>
-    <select id="country" required><option value="">Detecting...</option></select>
+    <select id="country" onchange="updateCountryCode()" required>
+      <option value="" disabled selected>Select your country - اختر بلدك</option>
+      <option value="+1">Canada - كندا</option>
+      <option value="+966">Saudi Arabia - السعودية</option>
+      <option value="+20">Egypt - مصر</option>
+      <option value="+1">USA - أمريكا</option>
+      <option value="+971">UAE - الإمارات</option>
+    </select>
     <button onclick="submitUser()">Start</button>
   </div>
 
@@ -164,24 +171,20 @@
     let meds = [];
 
     window.onload = () => {
-      fetch("https://ipapi.co/json")
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("country-code").innerText = data.country_calling_code || "+XX";
-          document.getElementById("country").innerHTML = `<option selected>${data.country_name}</option>`;
-        })
-        .catch(() => {
-          document.getElementById("country-code").innerText = "+966";
-          document.getElementById("country").innerHTML = `<option selected>Saudi Arabia</option>`;
-        });
+      document.getElementById("country-code").innerText = "+966"; // Default to Saudi Arabia
     };
+
+    function updateCountryCode() {
+      const code = document.getElementById("country").value;
+      document.getElementById("country-code").innerText = code;
+    }
 
     function submitUser() {
       const name = document.getElementById("name").value.trim();
       const age = document.getElementById("age").value.trim();
       const email = document.getElementById("email").value.trim();
       const phone = document.getElementById("phone").value.trim();
-      const country = document.getElementById("country").value.trim();
+      const country = document.getElementById("country").selectedOptions[0].text;
       const fullPhone = document.getElementById("country-code").innerText + " " + phone;
 
       if (!name || !age || !email || !phone || !country) {
